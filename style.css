@@ -1,0 +1,419 @@
+/* ============================================================
+   Base & Reset
+   ============================================================ */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --pink-light: #fff0f3;
+  --pink-soft: #ffd6e0;
+  --pink-mid: #ffb3c6;
+  --pink-strong: #ff758f;
+  --pink-accent: #ff4d6d;
+  --rose-dark: #c9184a;
+  --cream: #fff9fb;
+  --text-dark: #5a1a2a;
+  --text-mid: #8a3a4a;
+  --text-light: #b56070;
+  --shadow: rgba(201, 24, 74, 0.15);
+  --transition-speed: 0.35s;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #fff0f3 0%, #ffe4ec 40%, #fff5f8 100%);
+  font-family: "Lato", sans-serif;
+  color: var(--text-dark);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* ============================================================
+   Floating hearts background
+   ============================================================ */
+.hearts-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.heart-float {
+  position: absolute;
+  bottom: -60px;
+  font-size: 1.4rem;
+  opacity: 0;
+  animation: floatUp linear infinite;
+  user-select: none;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) rotate(-15deg);
+    opacity: 0.7;
+  }
+  80% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(15deg);
+    opacity: 0;
+  }
+}
+
+/* ============================================================
+   Layout
+   ============================================================ */
+.container {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 4rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+/* ============================================================
+   Header
+   ============================================================ */
+.site-header {
+  text-align: center;
+}
+
+.site-header h1 {
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(2.8rem, 8vw, 5rem);
+  font-weight: 700;
+  color: var(--rose-dark);
+  line-height: 1.1;
+  text-shadow: 0 2px 12px rgba(201, 24, 74, 0.18);
+  letter-spacing: 0.02em;
+}
+
+.site-header h2 {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(1.3rem, 4vw, 2rem);
+  color: var(--pink-strong);
+  margin-top: 0.25rem;
+  letter-spacing: 0.08em;
+}
+
+.intro-text {
+  margin-top: 1.1rem;
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-size: clamp(0.85rem, 2.5vw, 1rem);
+  line-height: 1.7;
+  color: var(--text-mid);
+  max-width: 520px;
+}
+
+/* ============================================================
+   Grid section
+   ============================================================ */
+.grid-section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.grid-title {
+  font-family: "Playfair Display", serif;
+  font-style: italic;
+  font-size: clamp(1.2rem, 3.5vw, 1.7rem);
+  color: var(--text-dark);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+  width: 100%;
+  max-width: 600px;
+}
+
+.tile {
+  background: var(--cream);
+  border: 2px solid var(--pink-mid);
+  border-radius: 14px;
+  padding: 0.75rem 0.4rem;
+  font-family: "Dancing Script", cursive;
+  font-size: clamp(0.95rem, 2.3vw, 1.15rem);
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: background var(--transition-speed),
+    border-color var(--transition-speed), transform 0.18s,
+    box-shadow var(--transition-speed);
+  box-shadow: 0 2px 8px var(--shadow);
+  position: relative;
+  overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.tile:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 6px 18px var(--shadow);
+  border-color: var(--pink-strong);
+}
+
+.tile.selected {
+  background: linear-gradient(135deg, var(--pink-soft), var(--pink-mid));
+  border-color: var(--pink-accent);
+  color: var(--rose-dark);
+  font-weight: 700;
+  box-shadow: 0 4px 16px rgba(255, 77, 109, 0.28);
+  transform: scale(1.04);
+}
+
+.tile::after {
+  content: "✓";
+  position: absolute;
+  top: 4px;
+  right: 7px;
+  font-size: 0.65rem;
+  color: var(--rose-dark);
+  opacity: 0;
+  transition: opacity 0.25s;
+}
+
+.tile.selected::after {
+  opacity: 1;
+}
+
+.hint {
+  font-family: "Lato", sans-serif;
+  font-weight: 300;
+  font-size: 0.85rem;
+  color: var(--text-light);
+  font-style: italic;
+  transition: opacity 0.5s;
+}
+
+.hint.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* ============================================================
+   Photo section
+   ============================================================ */
+.photo-section {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  position: relative;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.photo-section.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+
+/* Hearts overlay that bursts when photo appears */
+.photo-hearts-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  border-radius: 18px;
+}
+
+.burst-heart {
+  position: absolute;
+  font-size: 1.5rem;
+  animation: burstHeart 1.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes burstHeart {
+  0% {
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.9;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(1);
+    opacity: 0;
+  }
+}
+
+.photo-wrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 8px 40px rgba(201, 24, 74, 0.22);
+  border: 3px solid var(--pink-mid);
+  background: var(--pink-light);
+  aspect-ratio: 4 / 5;
+}
+
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: opacity 0.7s ease;
+}
+
+.photo.fade-out {
+  opacity: 0;
+}
+
+/* Placeholder shown when photo file is missing */
+.photo-placeholder {
+  display: none;
+  position: absolute;
+  inset: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background: linear-gradient(135deg, var(--pink-light), var(--pink-soft));
+  color: var(--text-light);
+  font-family: "Lato", sans-serif;
+  font-size: 0.9rem;
+  text-align: center;
+  padding: 1rem;
+}
+
+.photo-placeholder span {
+  font-size: 3rem;
+}
+
+.photo-placeholder p code {
+  font-size: 0.78rem;
+  background: var(--pink-mid);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+  color: var(--rose-dark);
+}
+
+.photo.errored + .photo-placeholder {
+  display: flex;
+}
+
+/* Toggle switch */
+.photo-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.switch-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: "Dancing Script", cursive;
+  font-size: 1.05rem;
+  color: var(--text-mid);
+  cursor: default;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 28px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position: absolute;
+}
+
+.slider {
+  position: absolute;
+  inset: 0;
+  background: var(--pink-mid);
+  border-radius: 28px;
+  transition: background 0.35s;
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  height: 20px;
+  width: 20px;
+  left: 4px;
+  top: 4px;
+  background: white;
+  border-radius: 50%;
+  transition: transform 0.35s;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+}
+
+.toggle-switch input:checked + .slider {
+  background: var(--pink-accent);
+}
+
+.toggle-switch input:checked + .slider::before {
+  transform: translateX(24px);
+}
+
+.photo-caption {
+  font-family: "Dancing Script", cursive;
+  font-size: 1.35rem;
+  color: var(--rose-dark);
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+/* ============================================================
+   Decorative divider
+   ============================================================ */
+.grid-section::before {
+  content: "✦ ♡ ✦";
+  font-size: 1rem;
+  color: var(--pink-strong);
+  letter-spacing: 0.5em;
+  opacity: 0.55;
+}
+
+/* ============================================================
+   Responsive adjustments
+   ============================================================ */
+@media (max-width: 420px) {
+  .grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.45rem;
+  }
+
+  .tile {
+    padding: 0.6rem 0.25rem;
+    font-size: 0.82rem;
+    border-radius: 10px;
+  }
+}
