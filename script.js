@@ -21,7 +21,7 @@ let selectedCount = 0;
 let allSelected = false;
 
 // ── Floating background hearts ──────────────────────────────
-const HEART_CHARS = ["♡", "♥", "❤️", "💕", "💗", "💖", "🌸"];
+const HEART_CHARS = ["♡", "♥", "💛", "⭐", "✨", "🌟", "🌸"];
 
 function spawnBackgroundHeart() {
   const el = document.createElement("span");
@@ -64,7 +64,7 @@ grid.addEventListener("click", (e) => {
 function spawnTileHeart(tile) {
   const rect = tile.getBoundingClientRect();
   const el = document.createElement("span");
-  el.textContent = "❤️";
+  el.textContent = "💛";
   el.style.cssText = `
     position: fixed;
     left: ${rect.left + rect.width / 2}px;
